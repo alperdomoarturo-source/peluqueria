@@ -14,17 +14,38 @@
     </script>
     <script type="module">
       document.getElementById('root').innerHTML = 'ES modules funcionan';
-      const appScript = document.createElement('script');
-      appScript.type = 'module';
-      appScript.crossOrigin = 'anonymous';
-      appScript.src = '/assets/index-D43YhItR.js';
-      document.head.appendChild(appScript);
       
       const cssLink = document.createElement('link');
       cssLink.rel = 'stylesheet';
       cssLink.crossOrigin = 'anonymous';
       cssLink.href = '/assets/index-B1YqpLHc.css';
       document.head.appendChild(cssLink);
+      
+      try {
+        const appScript = document.createElement('script');
+        appScript.type = 'module';
+        appScript.crossOrigin = 'anonymous';
+        appScript.src = '/assets/index-D43YhItR.js';
+        appScript.onerror = function() {
+          document.getElementById('error-display').innerHTML = 'Error cargando script: /assets/index-D43YhItR.js';
+          document.getElementById('error-display').style.display = 'block';
+        };
+        document.head.appendChild(appScript);
+      } catch (error) {
+        document.getElementById('error-display').innerHTML = 'Error: ' + error.message;
+        document.getElementById('error-display').style.display = 'block';
+      }
+    </script>
+    <script type="module">
+      window.addEventListener('error', function(event) {
+        document.getElementById('error-display').innerHTML = 'Error: ' + event.error?.message || event.error;
+        document.getElementById('error-display').style.display = 'block';
+      });
+      
+      window.addEventListener('unhandledrejection', function(event) {
+        document.getElementById('error-display').innerHTML = 'Error: ' + event.reason?.message || event.reason;
+        document.getElementById('error-display').style.display = 'block';
+      });
     </script>
   </body>
 </html>
