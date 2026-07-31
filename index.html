@@ -5,12 +5,36 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Peluquería - Tu estilo, nuestra pasión</title>
-    <script async src="https://cdn.jsdelivr.net/npm/es-module-shims@1.8.5/dist/es-module-shims.js"></script>
-    <script type="module" crossorigin src="/assets/index-D43YhItR.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-B1YqpLHc.css">
   </head>
   <body>
     <div id="error-display" style="display: none; background: red; color: white; padding: 20px; position: fixed; top: 0; left: 0; right: 0; z-index: 9999;"></div>
     <div id="root">Cargando...</div>
+    <script>
+      // Check if ES modules are supported
+      const script = document.createElement('script');
+      script.type = 'module';
+      script.text = 'document.getElementById("root").innerHTML = "ES modules soportados";';
+      document.head.appendChild(script);
+      
+      // If ES modules work, load the app
+      setTimeout(() => {
+        if (document.getElementById('root').innerHTML === 'ES modules soportados') {
+          document.getElementById('root').innerHTML = 'Cargando aplicación...';
+          const appScript = document.createElement('script');
+          appScript.type = 'module';
+          appScript.crossOrigin = 'anonymous';
+          appScript.src = '/assets/index-D43YhItR.js';
+          document.head.appendChild(appScript);
+          
+          const cssLink = document.createElement('link');
+          cssLink.rel = 'stylesheet';
+          cssLink.crossOrigin = 'anonymous';
+          cssLink.href = '/assets/index-B1YqpLHc.css';
+          document.head.appendChild(cssLink);
+        } else {
+          document.getElementById('root').innerHTML = 'ES modules no soportados. Usa un navegador moderno.';
+        }
+      }, 100);
+    </script>
   </body>
 </html>
