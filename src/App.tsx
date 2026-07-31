@@ -11,7 +11,22 @@ import { isAuthenticated } from './utils/auth'
 function DebugLocation() {
   const location = useLocation()
   console.log('Current location:', location.pathname)
-  return null
+  return (
+    <div style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      background: 'yellow',
+      color: 'black',
+      padding: '10px',
+      zIndex: 9999,
+      textAlign: 'center',
+      fontSize: '14px'
+    }}>
+      Ruta actual: {location.pathname}
+    </div>
+  )
 }
 
 function App() {
