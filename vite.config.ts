@@ -7,6 +7,11 @@ export default defineConfig({
   base: '/',
   build: {
     target: 'es2015',
+    rollupOptions: {
+      output: {
+        format: 'iife',
+      },
+    },
   },
   resolve: {
     alias: {
