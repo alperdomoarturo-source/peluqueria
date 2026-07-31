@@ -7,45 +7,7 @@
     <title>Peluquería - Tu estilo, nuestra pasión</title>
   </head>
   <body>
-    <div id="error-display" style="display: none; background: red; color: white; padding: 20px; position: fixed; top: 0; left: 0; right: 0; z-index: 9999;"></div>
-    <div id="root">TEST - Si ves esto, el HTML se actualizó</div>
-    <script>
-      document.getElementById('root').innerHTML = 'JavaScript funciona';
-    </script>
-    <script type="module">
-      document.getElementById('root').innerHTML = 'ES modules funcionan';
-      
-      const cssLink = document.createElement('link');
-      cssLink.rel = 'stylesheet';
-      cssLink.crossOrigin = 'anonymous';
-      cssLink.href = '/assets/index-B1YqpLHc.css';
-      document.head.appendChild(cssLink);
-      
-      try {
-        const appScript = document.createElement('script');
-        appScript.type = 'module';
-        appScript.crossOrigin = 'anonymous';
-        appScript.src = '/assets/index-D43YhItR.js';
-        appScript.onerror = function() {
-          document.getElementById('error-display').innerHTML = 'Error cargando script: /assets/index-D43YhItR.js';
-          document.getElementById('error-display').style.display = 'block';
-        };
-        document.head.appendChild(appScript);
-      } catch (error) {
-        document.getElementById('error-display').innerHTML = 'Error: ' + error.message;
-        document.getElementById('error-display').style.display = 'block';
-      }
-    </script>
-    <script type="module">
-      window.addEventListener('error', function(event) {
-        document.getElementById('error-display').innerHTML = 'Error: ' + event.error?.message || event.error;
-        document.getElementById('error-display').style.display = 'block';
-      });
-      
-      window.addEventListener('unhandledrejection', function(event) {
-        document.getElementById('error-display').innerHTML = 'Error: ' + event.reason?.message || event.reason;
-        document.getElementById('error-display').style.display = 'block';
-      });
-    </script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
