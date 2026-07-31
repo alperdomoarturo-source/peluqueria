@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import Home from './pages/Home'
 import Booking from './pages/Booking'
 import AdminLogin from './pages/admin/AdminLogin'
@@ -15,7 +15,7 @@ function App() {
         {/* Client routes */}
         <Route path="/" element={<Home />} />
         <Route path="/booking" element={<Booking />} />
-        
+
         {/* Admin routes */}
         <Route path="/admin" element={!isAuthenticated() ? <AdminLogin /> : <Navigate to="/admin/dashboard" />} />
         <Route path="/admin/dashboard" element={isAuthenticated() ? <AdminDashboard /> : <Navigate to="/admin" />} />
