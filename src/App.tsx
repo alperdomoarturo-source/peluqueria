@@ -1,4 +1,4 @@
-import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import { HashRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import Home from './pages/Home'
 import Booking from './pages/Booking'
 import AdminLogin from './pages/admin/AdminLogin'
@@ -8,9 +8,16 @@ import AdminServices from './pages/admin/AdminServices'
 import AdminSchedules from './pages/admin/AdminSchedules'
 import { isAuthenticated } from './utils/auth'
 
+function DebugLocation() {
+  const location = useLocation()
+  console.log('Current location:', location.pathname)
+  return null
+}
+
 function App() {
   return (
     <Router>
+      <DebugLocation />
       <Routes>
         {/* Client routes */}
         <Route path="/" element={<Home />} />
