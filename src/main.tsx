@@ -3,6 +3,12 @@ import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
 
+// Verify JavaScript is executing
+const rootDiv = document.getElementById('root')
+if (rootDiv) {
+  rootDiv.innerHTML = 'JavaScript ejecutándose...'
+}
+
 // Global error handler with visible display
 window.addEventListener('error', (event) => {
   console.error('Global error:', event.error)
