@@ -143,6 +143,8 @@ export const deleteAppointment = async (id: string) => {
 }
 
 export const getAvailableSlots = async (date: string, serviceDuration: number, serviceId?: string) => {
+  console.log('getAvailableSlots called with:', { date, serviceDuration, serviceId })
+  
   // Get schedule for the day
   const dayOfWeek = new Date(date).getDay()
   const { data: schedule, error: scheduleError } = await supabase
@@ -152,6 +154,7 @@ export const getAvailableSlots = async (date: string, serviceDuration: number, s
     .eq('is_active', true)
     .single()
   
+  console.log('Schedule:', schedule)
   if (scheduleError || !schedule) return []
 
   // Get workers for this service if serviceId is provided
@@ -162,10 +165,12 @@ export const getAvailableSlots = async (date: string, serviceDuration: number, s
       .select('*')
       .eq('service_id', serviceId)
     
+    console.log('Workers for service:', workers)
     if (!workersError && workers && workers.length > 0) {
       workerCount = workers.length
     }
   }
+  console.log('Worker count:', workerCount)
 
   // Get existing appointments
   const { data: appointments, error: appointmentsError } = await supabase
@@ -175,6 +180,7 @@ export const getAvailableSlots = async (date: string, serviceDuration: number, s
     .in('status', ['pending', 'confirmed'])
   
   if (appointmentsError) throw appointmentsError
+  console.log('Appointments for date:', appointments)
 
   // Get blocks
   const { data: blocks, error: blocksError } = await supabase
@@ -184,6 +190,7 @@ export const getAvailableSlots = async (date: string, serviceDuration: number, s
     .eq('is_active', true)
   
   if (blocksError) throw blocksError
+  console.log('Blocks:', blocks)
 
   // Generate time slots
   const slots: string[] = []
@@ -196,11 +203,14 @@ export const getAvailableSlots = async (date: string, serviceDuration: number, s
 
   // For today, start from current time rounded up to next interval
   const today = new Date().toISOString().split('T')[0]
+  console.log('Today:', today, 'Selected date:', date)
   if (date === today) {
     const now = new Date()
     const currentMinutesNow = now.getHours() * 60 + now.getMinutes()
+    console.log('Current time in minutes:', currentMinutesNow)
     // Round up to next interval
     currentMinutes = Math.ceil(currentMinutesNow / interval) * interval
+    console.log('Starting from minutes:', currentMinutes)
   }
 
   while (currentMinutes + serviceDuration <= endMinutes) {
@@ -229,6 +239,8 @@ export const getAvailableSlots = async (date: string, serviceDuration: number, s
     // Check if there's enough worker capacity
     const hasCapacity = conflictingAppointments.length < workerCount
 
+    console.log(`Slot ${timeSlot}: conflicting=${conflictingAppointments.length}, workerCount=${workerCount}, hasCapacity=${hasCapacity}, isBlocked=${isBlocked}`)
+
     if (!isBlocked && hasCapacity) {
       slots.push(timeSlot)
     }
@@ -236,6 +248,7 @@ export const getAvailableSlots = async (date: string, serviceDuration: number, s
     currentMinutes += interval
   }
 
+  console.log('Available slots:', slots)
   return slots
 }
 
