@@ -286,8 +286,8 @@ export const getStatistics = async () => {
     supabase.from('appointments').select('*').eq('status', 'completed'),
     supabase.from('appointments').select('*').eq('status', 'cancelled'),
     supabase.from('services').select('*').eq('is_active', true),
-    supabase.from('appointments').select('price').eq('date', today).in('status', ['completed', 'confirmed']),
-    supabase.from('appointments').select('price').gte('date', monthStart).in('status', ['completed', 'confirmed']),
+    supabase.from('appointments').select('*').eq('date', today).in('status', ['completed', 'confirmed']),
+    supabase.from('appointments').select('*').gte('date', monthStart).in('status', ['completed', 'confirmed']),
     supabase.from('appointments').select('service_name').gte('date', monthStart).in('status', ['completed', 'confirmed']),
   ])
 
