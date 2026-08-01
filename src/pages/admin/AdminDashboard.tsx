@@ -32,6 +32,7 @@ export default function AdminDashboard() {
   const loadStats = async () => {
     try {
       const data = await getStatistics()
+      console.log('Stats data:', data)
       setStats(data)
     } catch (error) {
       console.error('Error loading statistics:', error)
@@ -154,6 +155,14 @@ export default function AdminDashboard() {
               No hay servicios realizados este mes
             </div>
           )}
+        </div>
+
+        {/* Debug Info */}
+        <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
+          <h3 className="font-bold text-yellow-800 mb-2">Debug Info (Datos crudos)</h3>
+          <pre className="text-xs text-yellow-900 overflow-auto">
+            {JSON.stringify(stats, null, 2)}
+          </pre>
         </div>
       </div>
     </AdminLayout>
