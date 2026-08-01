@@ -385,3 +385,31 @@ export const fixAppointmentStatus = async () => {
   console.log('Fix appointment status result:', data, error)
   if (error) throw error
 }
+
+// Delete all appointments at the start of each month
+export const deleteOldAppointments = async () => {
+  const now = new Date()
+  const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
+  const lastCleanedMonth = localStorage.getItem('lastCleanedMonth')
+
+  // If already cleaned this month, don't clean again
+  if (lastCleanedMonth === currentMonth) {
+    console.log('Already cleaned this month, skipping')
+    return
+  }
+
+  // Delete ALL appointments when starting a new month
+  const { error } = await supabase
+    .from('appointments')
+    .delete()
+    .gte('date', '1900-01-01') // Delete all records with any date
+
+  if (error) {
+    console.error('Error deleting appointments:', error)
+    throw error
+  }
+
+  // Mark this month as cleaned
+  localStorage.setItem('lastCleanedMonth', currentMonth)
+  console.log('Deleted all appointments for new month')
+}

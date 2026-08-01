@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import AdminLayout from '../../components/AdminLayout'
-import { getStatistics, autoConfirmAppointments, fixFutureCompletedAppointments } from '../../services/database'
+import { getStatistics, autoConfirmAppointments, fixFutureCompletedAppointments, deleteOldAppointments } from '../../services/database'
 import { formatPrice } from '../../utils/cn'
 import { Calendar, Scissors, DollarSign, Clock, XCircle, AlertCircle, PieChart } from 'lucide-react'
 import { PieChart as RechartsPieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts'
@@ -13,6 +13,8 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     loadStats()
+    // Delete old appointments from previous months
+    deleteOldAppointments().catch(console.error)
     // Fix future appointments marked as completed
     fixFutureCompletedAppointments().catch(console.error)
     // Auto-confirm appointments every minute
