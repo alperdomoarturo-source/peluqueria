@@ -288,8 +288,13 @@ export const loginAdmin = async (email: string, password: string) => {
 
 // Statistics
 export const getStatistics = async () => {
-  const today = new Date().toISOString().split('T')[0]
-  const monthStart = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().split('T')[0]
+  const now = new Date()
+  const today = now.toISOString().split('T')[0]
+  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0]
+  
+  // Check if it's after 11 PM to reset daily revenue
+  const isAfter11PM = now.getHours() >= 23
+  const todayForRevenue = isAfter11PM ? '' : today
 
   const [todayAppointments, pendingAppointments, completedAppointments, cancelledAppointments, services, todayRevenueData, monthRevenueData, monthServicesData] = await Promise.all([
     supabase.from('appointments').select('*').eq('date', today),
@@ -297,9 +302,9 @@ export const getStatistics = async () => {
     supabase.from('appointments').select('*').eq('status', 'completed'),
     supabase.from('appointments').select('*').eq('status', 'cancelled'),
     supabase.from('services').select('*').eq('is_active', true),
-    supabase.from('appointments').select('*').eq('date', today).eq('status', 'completed'),
-    supabase.from('appointments').select('*').gte('date', monthStart).eq('status', 'completed'),
-    supabase.from('appointments').select('service_name').gte('date', monthStart).eq('status', 'completed'),
+    supabase.from('appointments').select('*').eq('date', todayForRevenue).eq('status', 'confirmed'),
+    supabase.from('appointments').select('*').gte('date', monthStart).eq('status', 'confirmed'),
+    supabase.from('appointments').select('service_name').gte('date', monthStart).eq('status', 'confirmed'),
   ])
 
   const calculateRevenue = (data: any) => {

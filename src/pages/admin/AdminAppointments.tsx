@@ -148,6 +148,7 @@ export default function AdminAppointments() {
             >
               <option value="all">Todos los estados</option>
               <option value="pending">Pendiente</option>
+              <option value="confirmed">Confirmada</option>
               <option value="completed">Completada</option>
               <option value="cancelled">Cancelada</option>
             </select>
@@ -244,6 +245,7 @@ export default function AdminAppointments() {
                             className="px-2 py-1 border border-gray-300 rounded text-xs"
                           >
                             <option value="pending">Pendiente</option>
+                            <option value="confirmed">Confirmada</option>
                             <option value="completed">Completada</option>
                             <option value="cancelled">Cancelada</option>
                           </select>
