@@ -114,9 +114,15 @@ export const createAppointment = async (appointment: Omit<Appointment, 'id' | 'c
     throw new Error('Cupos llenos para este horario')
   }
 
+  // Ensure date is stored as string without timezone conversion
+  const appointmentToInsert = {
+    ...appointment,
+    date: appointment.date, // Keep as YYYY-MM-DD string
+  }
+
   const { data, error } = await supabase
     .from('appointments')
-    .insert(appointment)
+    .insert(appointmentToInsert)
     .select()
     .single()
   if (error) throw error
