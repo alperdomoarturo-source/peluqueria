@@ -279,7 +279,7 @@ export const getStatistics = async () => {
   const today = new Date().toISOString().split('T')[0]
   const monthStart = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().split('T')[0]
 
-  const [todayAppointments, pendingAppointments, confirmedAppointments, completedAppointments, cancelledAppointments, services, todayRevenue, monthRevenue] = await Promise.all([
+  const [todayAppointments, pendingAppointments, confirmedAppointments, completedAppointments, cancelledAppointments, services, todayRevenueData, monthRevenueData, monthServicesData] = await Promise.all([
     supabase.from('appointments').select('*').eq('date', today),
     supabase.from('appointments').select('*').eq('status', 'pending'),
     supabase.from('appointments').select('*').eq('status', 'confirmed'),
@@ -288,11 +288,27 @@ export const getStatistics = async () => {
     supabase.from('services').select('*').eq('is_active', true),
     supabase.from('appointments').select('price').eq('date', today).in('status', ['completed', 'confirmed']),
     supabase.from('appointments').select('price').gte('date', monthStart).in('status', ['completed', 'confirmed']),
+    supabase.from('appointments').select('service_name').gte('date', monthStart).in('status', ['completed', 'confirmed']),
   ])
 
   const calculateRevenue = (data: any) => {
-    return data?.reduce((sum: number, apt: any) => sum + apt.price, 0) || 0
+    return data?.reduce((sum: number, apt: any) => sum + (apt.price || 0), 0) || 0
   }
+
+  // Calculate monthly services distribution
+  const monthlyServices = monthServicesData.data?.reduce((acc: any, apt: any) => {
+    const serviceName = apt.service_name || 'Sin servicio'
+    acc[serviceName] = (acc[serviceName] || 0) + 1
+    return acc
+  }, {}) || {}
+
+  const totalMonthlyServices = Object.values(monthlyServices).reduce((sum: number, count: any) => sum + count, 0) || 0
+
+  const monthlyServicesDistribution = Object.entries(monthlyServices).map(([name, count]) => ({
+    name,
+    count: count as number,
+    percentage: totalMonthlyServices > 0 ? Math.round(((count as number) / totalMonthlyServices) * 100) : 0
+  }))
 
   return {
     todayAppointments: todayAppointments.data?.length || 0,
@@ -301,7 +317,33 @@ export const getStatistics = async () => {
     completedAppointments: completedAppointments.data?.length || 0,
     cancelledAppointments: cancelledAppointments.data?.length || 0,
     totalServices: services.data?.length || 0,
-    todayRevenue: calculateRevenue(todayRevenue.data),
-    monthRevenue: calculateRevenue(monthRevenue.data),
+    todayRevenue: calculateRevenue(todayRevenueData.data),
+    monthRevenue: calculateRevenue(monthRevenueData.data),
+    monthlyServicesDistribution,
+  }
+}
+
+// Auto-confirm appointments when date/time arrives
+export const autoConfirmAppointments = async () => {
+  const now = new Date()
+  const currentDate = now.toISOString().split('T')[0]
+  const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`
+
+  const { data: pendingAppointments, error } = await supabase
+    .from('appointments')
+    .select('*')
+    .eq('status', 'pending')
+    .lte('date', currentDate)
+
+  if (error) throw error
+
+  for (const appointment of pendingAppointments || []) {
+    const shouldConfirm = 
+      appointment.date < currentDate || 
+      (appointment.date === currentDate && appointment.time <= currentTime)
+
+    if (shouldConfirm) {
+      await updateAppointment(appointment.id, { status: 'confirmed' })
+    }
   }
 }

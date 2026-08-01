@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react'
 import AdminLayout from '../../components/AdminLayout'
-import { getStatistics } from '../../services/database'
+import { getStatistics, autoConfirmAppointments } from '../../services/database'
 import { formatPrice } from '../../utils/cn'
-import { Calendar, Scissors, DollarSign, CheckCircle, Clock, XCircle, AlertCircle } from 'lucide-react'
+import { Calendar, Scissors, DollarSign, CheckCircle, Clock, XCircle, AlertCircle, PieChart } from 'lucide-react'
+import { PieChart as RechartsPieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts'
+
+const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#06B6D4', '#84CC16']
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState<any>(null)
@@ -10,6 +13,20 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     loadStats()
+    // Auto-confirm appointments every minute
+    const interval = setInterval(async () => {
+      try {
+        await autoConfirmAppointments()
+        await loadStats()
+      } catch (error) {
+        console.error('Error auto-confirming appointments:', error)
+      }
+    }, 60000)
+
+    // Auto-confirm on initial load
+    autoConfirmAppointments().catch(console.error)
+
+    return () => clearInterval(interval)
   }, [])
 
   const loadStats = async () => {
@@ -39,6 +56,12 @@ export default function AdminDashboard() {
     { label: 'Canceladas', value: stats?.cancelledAppointments || 0, icon: XCircle, color: 'bg-red-500' },
     { label: 'Servicios', value: stats?.totalServices || 0, icon: Scissors, color: 'bg-indigo-500' },
   ]
+
+  const pieData = stats?.monthlyServicesDistribution?.map((item: any) => ({
+    name: item.name,
+    value: item.count,
+    percentage: item.percentage
+  })) || []
 
   return (
     <AdminLayout>
@@ -89,6 +112,48 @@ export default function AdminDashboard() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Pie Chart Section */}
+        <div className="bg-white rounded-xl shadow-md p-6">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-3 bg-purple-100 rounded-lg">
+              <PieChart className="h-6 w-6 text-purple-600" />
+            </div>
+            <div>
+              <p className="text-sm font-medium text-gray-600">Servicios realizados este mes</p>
+              <p className="text-lg font-bold text-gray-900">Distribución por servicio</p>
+            </div>
+          </div>
+          
+          {pieData.length > 0 ? (
+            <div className="h-80">
+              <ResponsiveContainer width="100%" height="100%">
+                <RechartsPieChart>
+                  <Pie
+                    data={pieData}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    label={(entry: any) => `${entry.name} (${entry.percentage}%)`}
+                    outerRadius={80}
+                    fill="#8884d8"
+                    dataKey="value"
+                  >
+                    {pieData.map((_: any, index: number) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip formatter={(value: any) => [`${value} citas`, '']} />
+                  <Legend />
+                </RechartsPieChart>
+              </ResponsiveContainer>
+            </div>
+          ) : (
+            <div className="text-center text-gray-500 py-12">
+              No hay servicios realizados este mes
+            </div>
+          )}
         </div>
       </div>
     </AdminLayout>
