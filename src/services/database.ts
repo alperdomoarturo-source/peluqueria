@@ -348,12 +348,24 @@ export const autoConfirmAppointments = async () => {
   if (error) throw error
 
   for (const appointment of pendingAppointments || []) {
-    const shouldConfirm = 
-      appointment.date < currentDate || 
+    const shouldConfirm =
+      appointment.date < currentDate ||
       (appointment.date === currentDate && appointment.time <= currentTime)
 
     if (shouldConfirm) {
       await updateAppointment(appointment.id, { status: 'confirmed' })
     }
   }
+}
+
+// Fix incorrect appointment status
+export const fixAppointmentStatus = async () => {
+  // Change Laura's appointment from completed to pending
+  const { error } = await supabase
+    .from('appointments')
+    .update({ status: 'pending' })
+    .eq('client_name', 'Laura Sofia Perdomo')
+    .eq('date', '2026-08-01')
+
+  if (error) throw error
 }

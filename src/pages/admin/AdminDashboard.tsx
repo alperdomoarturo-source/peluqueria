@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import AdminLayout from '../../components/AdminLayout'
-import { getStatistics, autoConfirmAppointments } from '../../services/database'
+import { getStatistics, autoConfirmAppointments, fixAppointmentStatus } from '../../services/database'
 import { formatPrice } from '../../utils/cn'
 import { Calendar, Scissors, DollarSign, CheckCircle, Clock, XCircle, AlertCircle, PieChart } from 'lucide-react'
 import { PieChart as RechartsPieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts'
@@ -13,6 +13,8 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     loadStats()
+    // Fix incorrect appointment status on initial load
+    fixAppointmentStatus().catch(console.error)
     // Auto-confirm appointments every minute
     const interval = setInterval(async () => {
       try {
