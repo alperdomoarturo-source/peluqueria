@@ -142,7 +142,7 @@ export const deleteAppointment = async (id: string) => {
   if (error) throw error
 }
 
-export const getAvailableSlots = async (date: string, serviceDuration: number) => {
+export const getAvailableSlots = async (date: string, serviceDuration: number, serviceId?: string) => {
   // Get schedule for the day
   const dayOfWeek = new Date(date).getDay()
   const { data: schedule, error: scheduleError } = await supabase
@@ -153,6 +153,19 @@ export const getAvailableSlots = async (date: string, serviceDuration: number) =
     .single()
   
   if (scheduleError || !schedule) return []
+
+  // Get workers for this service if serviceId is provided
+  let workerCount = 1 // Default to 1 if no serviceId or no workers
+  if (serviceId) {
+    const { data: workers, error: workersError } = await supabase
+      .from('workers')
+      .select('*')
+      .eq('service_id', serviceId)
+    
+    if (!workersError && workers && workers.length > 0) {
+      workerCount = workers.length
+    }
+  }
 
   // Get existing appointments
   const { data: appointments, error: appointmentsError } = await supabase
@@ -181,6 +194,15 @@ export const getAvailableSlots = async (date: string, serviceDuration: number) =
   const endMinutes = endHour * 60 + endMin
   const interval = schedule.interval
 
+  // For today, start from current time rounded up to next interval
+  const today = new Date().toISOString().split('T')[0]
+  if (date === today) {
+    const now = new Date()
+    const currentMinutesNow = now.getHours() * 60 + now.getMinutes()
+    // Round up to next interval
+    currentMinutes = Math.ceil(currentMinutesNow / interval) * interval
+  }
+
   while (currentMinutes + serviceDuration <= endMinutes) {
     const timeSlot = `${String(Math.floor(currentMinutes / 60)).padStart(2, '0')}:${String(currentMinutes % 60).padStart(2, '0')}`
     
@@ -188,11 +210,15 @@ export const getAvailableSlots = async (date: string, serviceDuration: number) =
     const slotStart = currentMinutes
     const slotEnd = currentMinutes + serviceDuration
     
-    const isBooked = appointments?.some(apt => {
+    // Count conflicting appointments for this service
+    const conflictingAppointments = appointments?.filter(apt => {
+      // If serviceId is provided, only count appointments for this service
+      if (serviceId && apt.service_id !== serviceId) return false
+      
       const aptStart = parseInt(apt.time.split(':')[0]) * 60 + parseInt(apt.time.split(':')[1])
       const aptEnd = aptStart + apt.duration
       return (slotStart < aptEnd && slotEnd > aptStart)
-    })
+    }) || []
 
     const isBlocked = blocks?.some(block => {
       const blockStart = parseInt(block.start_time.split(':')[0]) * 60 + parseInt(block.start_time.split(':')[1])
@@ -200,7 +226,10 @@ export const getAvailableSlots = async (date: string, serviceDuration: number) =
       return (slotStart < blockEnd && slotEnd > blockStart)
     })
 
-    if (!isBooked && !isBlocked) {
+    // Check if there's enough worker capacity
+    const hasCapacity = conflictingAppointments.length < workerCount
+
+    if (!isBlocked && hasCapacity) {
       slots.push(timeSlot)
     }
     

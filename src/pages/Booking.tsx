@@ -65,7 +65,7 @@ export default function Booking() {
     
     setLoading(true)
     try {
-      const slots = await getAvailableSlots(selectedDate, selectedService.duration)
+      const slots = await getAvailableSlots(selectedDate, selectedService.duration, selectedService.id)
       setAvailableSlots(slots)
     } catch (error) {
       console.error('Error loading slots:', error)
@@ -123,7 +123,6 @@ export default function Booking() {
 
   const getMinDate = () => {
     const today = new Date()
-    today.setDate(today.getDate() + 1)
     return today.toISOString().split('T')[0]
   }
 
