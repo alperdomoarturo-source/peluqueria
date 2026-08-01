@@ -66,7 +66,13 @@ export default function Booking() {
     setLoading(true)
     try {
       const now = new Date()
-      const isToday = selectedDate === now.toISOString().split('T')[0]
+      // Get current date in local timezone
+      const year = now.getFullYear()
+      const month = String(now.getMonth() + 1).padStart(2, '0')
+      const day = String(now.getDate()).padStart(2, '0')
+      const todayLocal = `${year}-${month}-${day}`
+      
+      const isToday = selectedDate === todayLocal
       const currentHour = isToday ? now.getHours() : undefined
       const currentMinute = isToday ? now.getMinutes() : undefined
       

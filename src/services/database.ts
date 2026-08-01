@@ -200,12 +200,14 @@ export const getAvailableSlots = async (date: string, serviceDuration: number, s
   const endMinutes = endHour * 60 + endMin
   const interval = schedule.interval
 
-  // For today, start from current time (provided by client) rounded up to next interval
-  const today = new Date().toISOString().split('T')[0]
-  if (date === today && currentHour !== undefined && currentMinute !== undefined) {
+  // If current time is provided (for today), start from current time rounded up to next interval
+  console.log('getAvailableSlots - currentHour:', currentHour, 'currentMinute:', currentMinute)
+  if (currentHour !== undefined && currentMinute !== undefined) {
     const currentMinutesNow = currentHour * 60 + currentMinute
+    console.log('getAvailableSlots - currentMinutesNow:', currentMinutesNow)
     // Round up to next interval
     currentMinutes = Math.ceil(currentMinutesNow / interval) * interval
+    console.log('getAvailableSlots - adjusted currentMinutes:', currentMinutes)
   }
 
   while (currentMinutes + serviceDuration <= endMinutes) {
