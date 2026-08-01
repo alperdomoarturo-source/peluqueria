@@ -148,7 +148,7 @@ export const deleteAppointment = async (id: string) => {
   if (error) throw error
 }
 
-export const getAvailableSlots = async (date: string, serviceDuration: number, serviceId?: string) => {
+export const getAvailableSlots = async (date: string, serviceDuration: number, serviceId?: string, currentHour?: number, currentMinute?: number) => {
   // Get schedule for the day
   const dayOfWeek = new Date(date).getDay()
   const { data: schedule, error: scheduleError } = await supabase
@@ -200,11 +200,10 @@ export const getAvailableSlots = async (date: string, serviceDuration: number, s
   const endMinutes = endHour * 60 + endMin
   const interval = schedule.interval
 
-  // For today, start from current time rounded up to next interval
+  // For today, start from current time (provided by client) rounded up to next interval
   const today = new Date().toISOString().split('T')[0]
-  if (date === today) {
-    const now = new Date()
-    const currentMinutesNow = now.getHours() * 60 + now.getMinutes()
+  if (date === today && currentHour !== undefined && currentMinute !== undefined) {
+    const currentMinutesNow = currentHour * 60 + currentMinute
     // Round up to next interval
     currentMinutes = Math.ceil(currentMinutesNow / interval) * interval
   }

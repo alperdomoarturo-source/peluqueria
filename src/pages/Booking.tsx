@@ -65,7 +65,12 @@ export default function Booking() {
     
     setLoading(true)
     try {
-      const slots = await getAvailableSlots(selectedDate, selectedService.duration, selectedService.id)
+      const now = new Date()
+      const isToday = selectedDate === now.toISOString().split('T')[0]
+      const currentHour = isToday ? now.getHours() : undefined
+      const currentMinute = isToday ? now.getMinutes() : undefined
+      
+      const slots = await getAvailableSlots(selectedDate, selectedService.duration, selectedService.id, currentHour, currentMinute)
       setAvailableSlots(slots)
     } catch (error) {
       console.error('Error loading slots:', error)
