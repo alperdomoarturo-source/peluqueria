@@ -37,12 +37,13 @@ export default function AdminWorkers() {
     if (!newWorkerName.trim()) return
 
     try {
+      console.log('Adding worker:', { name: newWorkerName.trim(), service_id: serviceId })
       await createWorker({ name: newWorkerName.trim(), service_id: serviceId })
       setNewWorkerName('')
       await loadData()
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error adding worker:', error)
-      alert('Error al agregar trabajador')
+      alert(`Error al agregar trabajador: ${error.message || 'Error desconocido'}`)
     }
   }
 
