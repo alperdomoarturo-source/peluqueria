@@ -1,5 +1,5 @@
 import { supabase } from '../lib/supabase'
-import { Service, Appointment, Schedule, Block, Admin, AppointmentStatus } from '../types'
+import { Service, Appointment, Schedule, Block, Admin, AppointmentStatus, Worker } from '../types'
 
 // Services
 export const getServices = async () => {
@@ -81,25 +81,37 @@ export const getAppointmentById = async (id: string) => {
 }
 
 export const createAppointment = async (appointment: Omit<Appointment, 'id' | 'created_at'>) => {
+  // Get workers for this service
+  const { data: workers, error: workersError } = await supabase
+    .from('workers')
+    .select('*')
+    .eq('service_id', appointment.service_id)
+
+  if (workersError) throw workersError
+
+  const workerCount = workers?.length || 0
+
   // Check for conflicting appointments
   const { data: conflicts, error: conflictError } = await supabase
     .from('appointments')
     .select('*')
     .eq('date', appointment.date)
+    .eq('service_id', appointment.service_id)
     .in('status', ['pending', 'confirmed'])
-  
+
   if (conflictError) throw conflictError
 
-  const hasConflict = conflicts?.some(conflict => {
+  const conflictingAppointments = conflicts?.filter(conflict => {
     const conflictStart = parseInt(conflict.time.split(':')[0]) * 60 + parseInt(conflict.time.split(':')[1])
     const conflictEnd = conflictStart + conflict.duration
     const newStart = parseInt(appointment.time.split(':')[0]) * 60 + parseInt(appointment.time.split(':')[1])
     const newEnd = newStart + appointment.duration
     return (newStart < conflictEnd && newEnd > conflictStart)
-  })
+  }) || []
 
-  if (hasConflict) {
-    throw new Error('El horario ya está ocupado')
+  // Check if there are enough workers available
+  if (conflictingAppointments.length >= workerCount) {
+    throw new Error('Cupos llenos para este horario')
   }
 
   const { data, error } = await supabase
@@ -412,4 +424,39 @@ export const deleteOldAppointments = async () => {
   // Mark this month as cleaned
   localStorage.setItem('lastCleanedMonth', currentMonth)
   console.log('Deleted all appointments for new month')
+}
+
+// Workers
+export const getWorkers = async (serviceId?: string) => {
+  let query = supabase.from('workers').select('*')
+  if (serviceId) {
+    query = query.eq('service_id', serviceId)
+  }
+  const { data, error } = await query.order('name')
+  if (error) throw error
+  return data as Worker[]
+}
+
+export const createWorker = async (worker: Omit<Worker, 'id' | 'created_at'>) => {
+  const { data, error } = await supabase
+    .from('workers')
+    .insert(worker)
+    .select()
+    .single()
+  if (error) throw error
+  return data as Worker
+}
+
+export const deleteWorker = async (id: string) => {
+  const { error } = await supabase.from('workers').delete().eq('id', id)
+  if (error) throw error
+}
+
+export const getWorkersByService = async (serviceId: string) => {
+  const { data, error } = await supabase
+    .from('workers')
+    .select('*')
+    .eq('service_id', serviceId)
+  if (error) throw error
+  return data as Worker[]
 }

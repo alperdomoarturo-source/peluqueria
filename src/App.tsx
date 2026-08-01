@@ -6,6 +6,7 @@ import AdminDashboard from './pages/admin/AdminDashboard'
 import AdminAppointments from './pages/admin/AdminAppointments'
 import AdminServices from './pages/admin/AdminServices'
 import AdminSchedules from './pages/admin/AdminSchedules'
+import AdminWorkers from './pages/admin/AdminWorkers'
 import { isAuthenticated } from './utils/auth'
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path="/admin/appointments" element={isAuthenticated() ? <AdminAppointments /> : <Navigate to="/admin" />} />
         <Route path="/admin/services" element={isAuthenticated() ? <AdminServices /> : <Navigate to="/admin" />} />
         <Route path="/admin/schedules" element={isAuthenticated() ? <AdminSchedules /> : <Navigate to="/admin" />} />
+        <Route path="/admin/workers" element={isAuthenticated() ? <AdminWorkers /> : <Navigate to="/admin" />} />
       </Routes>
     </Router>
   )

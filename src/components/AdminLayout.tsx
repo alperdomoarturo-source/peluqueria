@@ -1,6 +1,6 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { clearAdminSession, getAdminSession } from '../utils/auth'
-import { LayoutDashboard, Calendar, Scissors, Clock, LogOut, Menu, X } from 'lucide-react'
+import { LayoutDashboard, Calendar, Scissors, Clock, LogOut, Menu, X, Users } from 'lucide-react'
 import { useState } from 'react'
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -19,6 +19,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { path: '/admin/appointments', label: 'Citas', icon: Calendar },
     { path: '/admin/services', label: 'Servicios', icon: Scissors },
     { path: '/admin/schedules', label: 'Horarios', icon: Clock },
+    { path: '/admin/workers', label: 'Trabajadores', icon: Users },
   ]
 
   return (

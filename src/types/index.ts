@@ -20,6 +20,13 @@ export interface Service {
   updated_at: string
 }
 
+export interface Worker {
+  id: string
+  name: string
+  service_id: string
+  created_at: string
+}
+
 export interface Client {
   id: string
   name: string
