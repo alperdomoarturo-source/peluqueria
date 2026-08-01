@@ -279,7 +279,10 @@ export const getStatistics = async () => {
   const today = new Date().toISOString().split('T')[0]
   const monthStart = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().split('T')[0]
 
-  const [todayAppointments, pendingAppointments, confirmedAppointments, completedAppointments, cancelledAppointments, services, todayRevenueData, monthRevenueData, monthServicesData] = await Promise.all([
+  console.log('Debug - Today:', today)
+  console.log('Debug - Month start:', monthStart)
+
+  const [todayAppointments, pendingAppointments, confirmedAppointments, completedAppointments, cancelledAppointments, services, todayRevenueData, monthRevenueData, monthServicesData, allAppointments] = await Promise.all([
     supabase.from('appointments').select('*').eq('date', today),
     supabase.from('appointments').select('*').eq('status', 'pending'),
     supabase.from('appointments').select('*').eq('status', 'confirmed'),
@@ -289,7 +292,13 @@ export const getStatistics = async () => {
     supabase.from('appointments').select('*').eq('date', today).in('status', ['completed', 'confirmed']),
     supabase.from('appointments').select('*').gte('date', monthStart).in('status', ['completed', 'confirmed']),
     supabase.from('appointments').select('service_name').gte('date', monthStart).in('status', ['completed', 'confirmed']),
+    supabase.from('appointments').select('*').order('date', { ascending: false }),
   ])
+
+  console.log('Debug - All appointments:', allAppointments.data)
+  console.log('Debug - Today appointments:', todayAppointments.data)
+  console.log('Debug - Today revenue data:', todayRevenueData.data)
+  console.log('Debug - Month revenue data:', monthRevenueData.data)
 
   const calculateRevenue = (data: any) => {
     return data?.reduce((sum: number, apt: any) => sum + (apt.price || 0), 0) || 0
@@ -320,6 +329,7 @@ export const getStatistics = async () => {
     todayRevenue: calculateRevenue(todayRevenueData.data),
     monthRevenue: calculateRevenue(monthRevenueData.data),
     monthlyServicesDistribution,
+    allAppointments: allAppointments.data,
   }
 }
 
