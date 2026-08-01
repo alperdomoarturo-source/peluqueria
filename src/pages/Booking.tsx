@@ -24,7 +24,6 @@ export default function Booking() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [confirmedAppointment, setConfirmedAppointment] = useState<any>(null)
-  const [debugLogs, setDebugLogs] = useState<string[]>([])
 
   useEffect(() => {
     loadServices()
@@ -65,26 +64,13 @@ export default function Booking() {
     if (!selectedDate || !selectedService) return
     
     setLoading(true)
-    setDebugLogs([])
-    
-    // Override console.log to capture logs
-    const originalLog = console.log
-    const logs: string[] = []
-    console.log = (...args) => {
-      logs.push(args.map(arg => typeof arg === 'object' ? JSON.stringify(arg) : String(arg)).join(' '))
-      originalLog(...args)
-    }
-    
     try {
       const slots = await getAvailableSlots(selectedDate, selectedService.duration, selectedService.id)
       setAvailableSlots(slots)
-      setDebugLogs(logs)
     } catch (error) {
       console.error('Error loading slots:', error)
       setAvailableSlots([])
-      setDebugLogs(logs)
     } finally {
-      console.log = originalLog
       setLoading(false)
     }
   }
@@ -310,16 +296,6 @@ export default function Booking() {
                         >
                           {formatTime(slot)}
                         </button>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* Debug logs */}
-                  {debugLogs.length > 0 && (
-                    <div className="mt-4 p-4 bg-gray-100 rounded-lg text-xs font-mono">
-                      <p className="font-bold mb-2">Logs de depuración:</p>
-                      {debugLogs.map((log, index) => (
-                        <p key={index} className="mb-1">{log}</p>
                       ))}
                     </div>
                   )}
