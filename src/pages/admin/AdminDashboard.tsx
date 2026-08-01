@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import AdminLayout from '../../components/AdminLayout'
-import { getStatistics, autoConfirmAppointments, fixAppointmentStatus } from '../../services/database'
+import { getStatistics, autoConfirmAppointments, fixFutureCompletedAppointments } from '../../services/database'
 import { formatPrice } from '../../utils/cn'
 import { Calendar, Scissors, DollarSign, Clock, XCircle, AlertCircle, PieChart } from 'lucide-react'
 import { PieChart as RechartsPieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts'
@@ -13,20 +13,22 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     loadStats()
-    // Fix incorrect appointment status on initial load
-    fixAppointmentStatus().catch(console.error)
+    // Fix future appointments marked as completed
+    fixFutureCompletedAppointments().catch(console.error)
     // Auto-confirm appointments every minute
     const interval = setInterval(async () => {
       try {
         await autoConfirmAppointments()
+        await fixFutureCompletedAppointments()
         await loadStats()
       } catch (error) {
-        console.error('Error auto-confirming appointments:', error)
+        console.error('Error in appointment management:', error)
       }
     }, 60000)
 
-    // Auto-confirm on initial load
+    // Auto-confirm and fix on initial load
     autoConfirmAppointments().catch(console.error)
+    fixFutureCompletedAppointments().catch(console.error)
 
     return () => clearInterval(interval)
   }, [])

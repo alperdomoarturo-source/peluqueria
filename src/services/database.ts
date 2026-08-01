@@ -346,14 +346,42 @@ export const autoConfirmAppointments = async () => {
   }
 }
 
+// Fix future appointments marked as completed
+export const fixFutureCompletedAppointments = async () => {
+  const now = new Date()
+  const currentDate = now.toISOString().split('T')[0]
+  const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`
+
+  const { data: futureCompleted, error } = await supabase
+    .from('appointments')
+    .select('*')
+    .eq('status', 'completed')
+    .gte('date', currentDate)
+
+  if (error) throw error
+
+  for (const appointment of futureCompleted || []) {
+    const isFuture =
+      appointment.date > currentDate ||
+      (appointment.date === currentDate && appointment.time > currentTime)
+
+    if (isFuture) {
+      console.log('Fixing future completed appointment:', appointment.id, appointment.date, appointment.time)
+      await updateAppointment(appointment.id, { status: 'pending' })
+    }
+  }
+}
+
 // Fix incorrect appointment status
 export const fixAppointmentStatus = async () => {
   // Change Laura's appointment from completed to pending
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from('appointments')
     .update({ status: 'pending' })
     .eq('client_name', 'Laura Sofia Perdomo')
     .eq('date', '2026-08-01')
+    .select()
 
+  console.log('Fix appointment status result:', data, error)
   if (error) throw error
 }
