@@ -200,6 +200,10 @@ export const getAvailableSlots = async (date: string, serviceDuration: number, s
   const endMinutes = endHour * 60 + endMin
   const interval = schedule.interval
 
+  console.log('Schedule start:', startHour, ':', startMin, '=', startHour * 60 + startMin, 'minutes')
+  console.log('Schedule end:', endHour, ':', endMin, '=', endMinutes, 'minutes')
+  console.log('Interval:', interval, 'minutes')
+
   // If current time is provided (for today), start from current time rounded up to next interval
   console.log('getAvailableSlots - currentHour:', currentHour, 'currentMinute:', currentMinute)
   if (currentHour !== undefined && currentMinute !== undefined) {
@@ -210,8 +214,14 @@ export const getAvailableSlots = async (date: string, serviceDuration: number, s
     console.log('getAvailableSlots - adjusted currentMinutes:', currentMinutes)
   }
 
+  console.log('Starting slot generation from:', currentMinutes, 'minutes')
+  console.log('Service duration:', serviceDuration, 'minutes')
+  console.log('End time:', endMinutes, 'minutes')
+
   while (currentMinutes + serviceDuration <= endMinutes) {
     const timeSlot = `${String(Math.floor(currentMinutes / 60)).padStart(2, '0')}:${String(currentMinutes % 60).padStart(2, '0')}`
+    
+    console.log('Checking slot:', timeSlot, 'at', currentMinutes, 'minutes')
     
     // Check if slot is available
     const slotStart = currentMinutes
@@ -236,13 +246,17 @@ export const getAvailableSlots = async (date: string, serviceDuration: number, s
     // Check if there's enough worker capacity
     const hasCapacity = conflictingAppointments.length < workerCount
 
+    console.log(`Slot ${timeSlot}: conflicting=${conflictingAppointments.length}, workerCount=${workerCount}, hasCapacity=${hasCapacity}, isBlocked=${isBlocked}`)
+
     if (!isBlocked && hasCapacity) {
       slots.push(timeSlot)
+      console.log('Slot added:', timeSlot)
     }
     
     currentMinutes += interval
   }
 
+  console.log('Final slots:', slots)
   return slots
 }
 

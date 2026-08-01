@@ -87,6 +87,7 @@ export default function Booking() {
       logs.push(`Today (local): ${todayLocal}`)
       logs.push(`Current time: ${now.getHours()}:${now.getMinutes()}`)
       
+      // Always send current time if selected date is today
       const isToday = selectedDate === todayLocal
       const currentHour = isToday ? now.getHours() : undefined
       const currentMinute = isToday ? now.getMinutes() : undefined
