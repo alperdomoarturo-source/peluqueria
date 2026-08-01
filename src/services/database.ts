@@ -279,26 +279,16 @@ export const getStatistics = async () => {
   const today = new Date().toISOString().split('T')[0]
   const monthStart = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().split('T')[0]
 
-  console.log('Debug - Today:', today)
-  console.log('Debug - Month start:', monthStart)
-
-  const [todayAppointments, pendingAppointments, confirmedAppointments, completedAppointments, cancelledAppointments, services, todayRevenueData, monthRevenueData, monthServicesData, allAppointments] = await Promise.all([
+  const [todayAppointments, pendingAppointments, completedAppointments, cancelledAppointments, services, todayRevenueData, monthRevenueData, monthServicesData] = await Promise.all([
     supabase.from('appointments').select('*').eq('date', today),
     supabase.from('appointments').select('*').eq('status', 'pending'),
-    supabase.from('appointments').select('*').eq('status', 'confirmed'),
     supabase.from('appointments').select('*').eq('status', 'completed'),
     supabase.from('appointments').select('*').eq('status', 'cancelled'),
     supabase.from('services').select('*').eq('is_active', true),
-    supabase.from('appointments').select('*').eq('date', today).in('status', ['completed', 'confirmed']),
-    supabase.from('appointments').select('*').gte('date', monthStart).in('status', ['completed', 'confirmed']),
-    supabase.from('appointments').select('service_name').gte('date', monthStart).in('status', ['completed', 'confirmed']),
-    supabase.from('appointments').select('*').order('date', { ascending: false }),
+    supabase.from('appointments').select('*').eq('date', today).eq('status', 'completed'),
+    supabase.from('appointments').select('*').gte('date', monthStart).eq('status', 'completed'),
+    supabase.from('appointments').select('service_name').gte('date', monthStart).eq('status', 'completed'),
   ])
-
-  console.log('Debug - All appointments:', allAppointments.data)
-  console.log('Debug - Today appointments:', todayAppointments.data)
-  console.log('Debug - Today revenue data:', todayRevenueData.data)
-  console.log('Debug - Month revenue data:', monthRevenueData.data)
 
   const calculateRevenue = (data: any) => {
     return data?.reduce((sum: number, apt: any) => sum + (apt.price || 0), 0) || 0
@@ -322,14 +312,12 @@ export const getStatistics = async () => {
   return {
     todayAppointments: todayAppointments.data?.length || 0,
     pendingAppointments: pendingAppointments.data?.length || 0,
-    confirmedAppointments: confirmedAppointments.data?.length || 0,
     completedAppointments: completedAppointments.data?.length || 0,
     cancelledAppointments: cancelledAppointments.data?.length || 0,
     totalServices: services.data?.length || 0,
     todayRevenue: calculateRevenue(todayRevenueData.data),
     monthRevenue: calculateRevenue(monthRevenueData.data),
     monthlyServicesDistribution,
-    allAppointments: allAppointments.data,
   }
 }
 

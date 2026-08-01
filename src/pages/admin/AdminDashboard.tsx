@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import AdminLayout from '../../components/AdminLayout'
 import { getStatistics, autoConfirmAppointments, fixAppointmentStatus } from '../../services/database'
 import { formatPrice } from '../../utils/cn'
-import { Calendar, Scissors, DollarSign, CheckCircle, Clock, XCircle, AlertCircle, PieChart } from 'lucide-react'
+import { Calendar, Scissors, DollarSign, Clock, XCircle, AlertCircle, PieChart } from 'lucide-react'
 import { PieChart as RechartsPieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts'
 
 const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#06B6D4', '#84CC16']
@@ -54,7 +54,6 @@ export default function AdminDashboard() {
   const statCards = [
     { label: 'Citas de hoy', value: stats?.todayAppointments || 0, icon: Calendar, color: 'bg-blue-500' },
     { label: 'Pendientes', value: stats?.pendingAppointments || 0, icon: AlertCircle, color: 'bg-yellow-500' },
-    { label: 'Confirmadas', value: stats?.confirmedAppointments || 0, icon: CheckCircle, color: 'bg-green-500' },
     { label: 'Completadas', value: stats?.completedAppointments || 0, icon: Clock, color: 'bg-purple-500' },
     { label: 'Canceladas', value: stats?.cancelledAppointments || 0, icon: XCircle, color: 'bg-red-500' },
     { label: 'Servicios', value: stats?.totalServices || 0, icon: Scissors, color: 'bg-indigo-500' },
@@ -157,14 +156,6 @@ export default function AdminDashboard() {
               No hay servicios realizados este mes
             </div>
           )}
-        </div>
-
-        {/* Debug Info */}
-        <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
-          <h3 className="font-bold text-yellow-800 mb-2">Debug Info (Datos crudos)</h3>
-          <pre className="text-xs text-yellow-900 overflow-auto">
-            {JSON.stringify(stats, null, 2)}
-          </pre>
         </div>
       </div>
     </AdminLayout>
