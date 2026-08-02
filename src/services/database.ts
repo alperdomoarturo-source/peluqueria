@@ -322,8 +322,14 @@ export const loginAdmin = async (email: string, password: string) => {
 // Statistics
 export const getStatistics = async () => {
   const now = new Date()
-  const today = now.toISOString().split('T')[0]
-  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0]
+  // Get current date in local timezone
+  const year = now.getFullYear()
+  const month = String(now.getMonth() + 1).padStart(2, '0')
+  const day = String(now.getDate()).padStart(2, '0')
+  const today = `${year}-${month}-${day}`
+  
+  // Get month start in local timezone
+  const monthStart = `${year}-${month}-01`
   
   // Check if it's after 11 PM to reset daily revenue
   const isAfter11PM = now.getHours() >= 23
