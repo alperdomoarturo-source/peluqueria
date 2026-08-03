@@ -55,19 +55,13 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-16 px-4 bg-gradient-to-b from-gray-50 to-white">
-        <div className="max-w-7xl mx-auto">
+      <section id="services" className="py-16 px-4 relative" style={{ backgroundImage: 'url(https://i.pinimg.com/736x/1e/63/d5/1e63d541a226f236e8a3e7ddab70e6d2.jpg)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed' }}>
+        <div className="absolute inset-0 bg-white/90"></div>
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               Nuestros Servicios
             </h2>
-            <div className="flex justify-center gap-2 text-2xl">
-              <span>✨</span>
-              <span>💇</span>
-              <span>💅</span>
-              <span>💆</span>
-              <span>✨</span>
-            </div>
           </div>
           
           {loading ? (
