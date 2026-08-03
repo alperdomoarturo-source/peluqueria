@@ -26,6 +26,8 @@ export default function AdminAppointments() {
   const loadAppointments = async () => {
     try {
       const data = await getAppointments()
+      console.log('Loaded appointments:', data)
+      console.log('Total appointments:', data.length)
       setAppointments(data)
     } catch (error) {
       console.error('Error loading appointments:', error)
