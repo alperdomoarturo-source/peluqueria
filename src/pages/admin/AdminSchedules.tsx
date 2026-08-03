@@ -175,7 +175,11 @@ export default function AdminSchedules() {
                 <div key={block.id} className="flex items-center justify-between p-4 bg-red-50 border border-red-200 rounded-lg">
                   <div>
                     <p className="font-medium text-gray-900">
-                      {new Date(block.date).toLocaleDateString('es-CO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                      {(() => {
+                        const [year, month, day] = block.date.split('-').map(Number)
+                        const localDate = new Date(year, month - 1, day)
+                        return localDate.toLocaleDateString('es-CO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+                      })()}
                     </p>
                     <p className="text-sm text-gray-600">
                       {formatTime(block.start_time)} - {formatTime(block.end_time)}

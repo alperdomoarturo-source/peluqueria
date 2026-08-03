@@ -14,7 +14,10 @@ export function formatPrice(price: number): string {
 }
 
 export function formatDate(date: string): string {
-  return new Date(date).toLocaleDateString('es-CO', {
+  // Parse date in local timezone to avoid UTC conversion issues
+  const [year, month, day] = date.split('-').map(Number)
+  const localDate = new Date(year, month - 1, day)
+  return localDate.toLocaleDateString('es-CO', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
