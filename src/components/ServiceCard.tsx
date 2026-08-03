@@ -10,7 +10,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
       {service.image && (
-        <div className="h-48 bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center">
+        <div className="h-48 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
           <span className="text-6xl">✂️</span>
         </div>
       )}
@@ -18,10 +18,10 @@ export default function ServiceCard({ service }: ServiceCardProps) {
         <h3 className="text-xl font-semibold text-gray-900 mb-2">{service.name}</h3>
         <p className="text-gray-600 mb-4">{service.description}</p>
         <div className="flex items-center justify-between">
-          <span className="text-2xl font-bold text-primary-600">{formatPrice(service.price)}</span>
+          <span className="text-2xl font-bold text-black">{formatPrice(service.price)}</span>
           <Link
             to={`/booking?service=${service.id}`}
-            className="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors font-medium"
+            className="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors font-medium"
           >
             Agendar
           </Link>

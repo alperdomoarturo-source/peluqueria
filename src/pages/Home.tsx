@@ -29,25 +29,15 @@ export default function Home() {
       <Header />
       
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-primary-600 to-primary-800 text-white py-20 px-4 overflow-hidden">
-        {/* Decorative elements */}
-        <div className="absolute top-0 left-0 w-full h-full opacity-10">
-          <div className="absolute top-10 left-10 text-8xl">🌸</div>
-          <div className="absolute top-20 right-20 text-6xl">🌺</div>
-          <div className="absolute bottom-10 left-1/4 text-7xl">🌷</div>
-          <div className="absolute bottom-20 right-1/3 text-5xl">🌹</div>
-          <div className="absolute top-1/2 left-10 text-6xl">🌼</div>
-          <div className="absolute top-1/3 right-10 text-7xl">💐</div>
-        </div>
-        
+      <section className="relative bg-gradient-to-br from-black to-gray-900 text-white py-20 px-4 overflow-hidden">
         <div className="max-w-7xl mx-auto text-center relative z-10">
           <h1 className="text-4xl md:text-6xl font-bold mb-4 drop-shadow-lg" style={{ fontFamily: 'Playfair Display, serif' }}>Tu estilo, nuestra pasión</h1>
-          <p className="text-xl md:text-2xl mb-8 text-primary-100 drop-shadow-md" style={{ fontFamily: 'Lato, sans-serif' }}>
+          <p className="text-xl md:text-2xl mb-8 text-gray-300 drop-shadow-md" style={{ fontFamily: 'Lato, sans-serif' }}>
             Descubre la mejor experiencia de cuidado personal
           </p>
           <Link
             to="/booking"
-            className="inline-block bg-white text-primary-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-primary-50 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
+            className="inline-block bg-white text-black px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
           >
             Reservar mi cita
           </Link>
@@ -94,7 +84,7 @@ export default function Home() {
       </section>
 
       {/* Contact Section */}
-      <section className="bg-gradient-to-b from-white to-primary-50 py-16 px-4">
+      <section className="bg-gradient-to-b from-white to-black py-16 px-4">
         <div className="max-w-7xl mx-auto text-center">
           <div className="flex justify-center gap-2 text-3xl mb-4">
             <span>📞</span>
@@ -126,16 +116,10 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gradient-to-r from-primary-800 to-primary-900 text-white py-12 px-4">
+      <footer className="bg-gradient-to-r from-black to-gray-900 text-white py-12 px-4">
         <div className="max-w-7xl mx-auto text-center">
-          <div className="flex justify-center gap-2 text-2xl mb-4">
-            <span>🌸</span>
-            <span>💇</span>
-            <span>💅</span>
-            <span>🌺</span>
-          </div>
           <p className="text-lg mb-2">&copy; 2024 Peluquería. Todos los derechos reservados.</p>
-          <p className="text-primary-200 text-sm">Hecho con 💖 para ti</p>
+          <p className="text-gray-400 text-sm">Hecho con 💖 para ti</p>
         </div>
       </footer>
     </div>
