@@ -45,12 +45,16 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-16 px-4 relative" style={{ backgroundImage: 'url(https://img.freepik.com/fotos-premium/patron-salon-belleza_288990-5669.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+      <section id="services" className="py-16 px-4 relative" style={{ backgroundImage: 'url(https://img.freepik.com/fotos-premium/patron-salon-belleza_288990-5669.jpg)', backgroundPosition: 'center' }}>
         <style>{`
+          #services {
+            background-size: cover;
+            background-repeat: no-repeat;
+          }
           @media (max-width: 1024px) {
             #services {
-              background-size: 5% auto;
-              background-repeat: repeat;
+              background-size: 5% auto !important;
+              background-repeat: repeat !important;
             }
           }
           @media (min-width: 1025px) {
