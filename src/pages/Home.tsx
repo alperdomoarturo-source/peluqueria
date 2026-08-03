@@ -29,15 +29,25 @@ export default function Home() {
       <Header />
       
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-primary-600 to-primary-800 text-white py-20 px-4">
-        <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4">Tu estilo, nuestra pasión</h1>
-          <p className="text-xl md:text-2xl mb-8 text-primary-100">
+      <section className="relative bg-gradient-to-br from-primary-600 to-primary-800 text-white py-20 px-4 overflow-hidden">
+        {/* Decorative elements */}
+        <div className="absolute top-0 left-0 w-full h-full opacity-10">
+          <div className="absolute top-10 left-10 text-8xl">🌸</div>
+          <div className="absolute top-20 right-20 text-6xl">🌺</div>
+          <div className="absolute bottom-10 left-1/4 text-7xl">🌷</div>
+          <div className="absolute bottom-20 right-1/3 text-5xl">🌹</div>
+          <div className="absolute top-1/2 left-10 text-6xl">🌼</div>
+          <div className="absolute top-1/3 right-10 text-7xl">💐</div>
+        </div>
+        
+        <div className="max-w-7xl mx-auto text-center relative z-10">
+          <h1 className="text-4xl md:text-6xl font-bold mb-4 drop-shadow-lg">Tu estilo, nuestra pasión</h1>
+          <p className="text-xl md:text-2xl mb-8 text-primary-100 drop-shadow-md">
             Descubre la mejor experiencia de cuidado personal
           </p>
           <Link
             to="/booking"
-            className="inline-block bg-white text-primary-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-primary-50 transition-colors"
+            className="inline-block bg-white text-primary-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-primary-50 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
           >
             Reservar mi cita
           </Link>
@@ -45,11 +55,20 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-16 px-4">
+      <section id="services" className="py-16 px-4 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-12">
-            Nuestros Servicios
-          </h2>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Nuestros Servicios
+            </h2>
+            <div className="flex justify-center gap-2 text-2xl">
+              <span>✨</span>
+              <span>💇</span>
+              <span>💅</span>
+              <span>💆</span>
+              <span>✨</span>
+            </div>
+          </div>
           
           {loading ? (
             <div className="text-center text-gray-600">Cargando servicios...</div>
@@ -68,22 +87,30 @@ export default function Home() {
       </section>
 
       {/* Contact Section */}
-      <section className="bg-white py-16 px-4">
+      <section className="bg-gradient-to-b from-white to-primary-50 py-16 px-4">
         <div className="max-w-7xl mx-auto text-center">
+          <div className="flex justify-center gap-2 text-3xl mb-4">
+            <span>📞</span>
+            <span>💌</span>
+            <span>🕐</span>
+          </div>
           <h2 className="text-3xl font-bold text-gray-900 mb-4">Contáctanos</h2>
           <p className="text-gray-600 mb-8">
             Estamos aquí para atenderte. ¡Reserva tu cita hoy!
           </p>
           <div className="flex flex-col md:flex-row justify-center gap-8">
-            <div>
+            <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+              <div className="text-3xl mb-2">📞</div>
               <h3 className="font-semibold text-gray-900">Teléfono</h3>
               <p className="text-gray-600">+57 300 123 4567</p>
             </div>
-            <div>
+            <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+              <div className="text-3xl mb-2">💌</div>
               <h3 className="font-semibold text-gray-900">Email</h3>
               <p className="text-gray-600">info@peluqueria.com</p>
             </div>
-            <div>
+            <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+              <div className="text-3xl mb-2">🕐</div>
               <h3 className="font-semibold text-gray-900">Horario</h3>
               <p className="text-gray-600">Lun - Sáb: 8:00 AM - 6:00 PM</p>
             </div>
@@ -92,9 +119,16 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-8 px-4">
+      <footer className="bg-gradient-to-r from-primary-800 to-primary-900 text-white py-12 px-4">
         <div className="max-w-7xl mx-auto text-center">
-          <p>&copy; 2024 Peluquería. Todos los derechos reservados.</p>
+          <div className="flex justify-center gap-2 text-2xl mb-4">
+            <span>🌸</span>
+            <span>💇</span>
+            <span>💅</span>
+            <span>🌺</span>
+          </div>
+          <p className="text-lg mb-2">&copy; 2024 Peluquería. Todos los derechos reservados.</p>
+          <p className="text-primary-200 text-sm">Hecho con 💖 para ti</p>
         </div>
       </footer>
     </div>
