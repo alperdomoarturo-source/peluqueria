@@ -14,6 +14,7 @@ export default function AdminAppointments() {
   const [dateFilter, setDateFilter] = useState('')
   const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null)
   const [showDetails, setShowDetails] = useState(false)
+  const [debugInfo, setDebugInfo] = useState<string>('')
 
   useEffect(() => {
     loadAppointments()
@@ -26,11 +27,17 @@ export default function AdminAppointments() {
   const loadAppointments = async () => {
     try {
       const data = await getAppointments()
-      console.log('Loaded appointments:', data)
-      console.log('Total appointments:', data.length)
+      const now = new Date()
+      const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
+      
+      const todayAppointments = data.filter(apt => apt.date === today)
+      const debugText = `Total citas: ${data.length}\nCitas de hoy (${today}): ${todayAppointments.length}\n\nCitas de hoy:\n${todayAppointments.map(apt => `${apt.client_name} - ${apt.service_name} - ${apt.date} ${apt.time} - ${apt.status}`).join('\n')}`
+      
+      setDebugInfo(debugText)
       setAppointments(data)
     } catch (error) {
       console.error('Error loading appointments:', error)
+      setDebugInfo(`Error: ${error}`)
     } finally {
       setLoading(false)
     }
@@ -129,6 +136,14 @@ export default function AdminAppointments() {
     <AdminLayout>
       <div className="space-y-6">
         <h1 className="text-2xl font-bold text-gray-900">Gestión de Citas</h1>
+
+        {/* Debug Info */}
+        {debugInfo && (
+          <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
+            <h3 className="font-bold text-yellow-800 mb-2">Información de depuración:</h3>
+            <pre className="text-xs text-yellow-900 whitespace-pre-wrap">{debugInfo}</pre>
+          </div>
+        )}
 
         {/* Filters */}
         <div className="bg-white rounded-xl shadow-md p-6 space-y-4">

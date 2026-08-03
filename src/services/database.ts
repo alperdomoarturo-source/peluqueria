@@ -444,6 +444,11 @@ export const fixAppointmentStatus = async () => {
 
 // Delete all appointments at the start of each month
 export const deleteOldAppointments = async () => {
+  // DISABLED - This function was deleting all appointments including today's
+  // Re-enable only if you want to delete all appointments at month start
+  console.log('deleteOldAppointments is disabled to prevent data loss')
+  return
+  
   const now = new Date()
   const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
   const lastCleanedMonth = localStorage.getItem('lastCleanedMonth')
