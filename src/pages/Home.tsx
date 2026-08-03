@@ -53,7 +53,7 @@ export default function Home() {
           }
           @media (max-width: 1024px) {
             #services {
-              background-size: 40% auto !important;
+              background-size: 60% auto !important;
               background-repeat: repeat !important;
             }
           }

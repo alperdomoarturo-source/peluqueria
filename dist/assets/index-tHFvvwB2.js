@@ -214,7 +214,7 @@ ${v}`}class Ue extends Error{constructor({message:t,code:r,cause:n,name:i}){var 
           }
           @media (max-width: 1024px) {
             #services {
-              background-size: 40% auto !important;
+              background-size: 60% auto !important;
               background-repeat: repeat !important;
             }
           }
