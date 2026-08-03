@@ -55,7 +55,7 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-16 px-4 relative" style={{ backgroundImage: 'url(https://i.pinimg.com/736x/1e/63/d5/1e63d541a226f236e8a3e7ddab70e6d2.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+      <section id="services" className="py-16 px-4 relative" style={{ backgroundImage: 'url(https://img.freepik.com/fotos-premium/patron-salon-belleza_288990-5669.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
         <style>{`
           @media (min-width: 768px) {
             #services {
