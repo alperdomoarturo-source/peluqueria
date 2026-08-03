@@ -41,8 +41,8 @@ export default function Home() {
         </div>
         
         <div className="max-w-7xl mx-auto text-center relative z-10">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4 drop-shadow-lg">Tu estilo, nuestra pasión</h1>
-          <p className="text-xl md:text-2xl mb-8 text-primary-100 drop-shadow-md">
+          <h1 className="text-4xl md:text-6xl font-bold mb-4 drop-shadow-lg" style={{ fontFamily: 'Playfair Display, serif' }}>Tu estilo, nuestra pasión</h1>
+          <p className="text-xl md:text-2xl mb-8 text-primary-100 drop-shadow-md" style={{ fontFamily: 'Lato, sans-serif' }}>
             Descubre la mejor experiencia de cuidado personal
           </p>
           <Link
@@ -66,7 +66,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-white/90"></div>
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
               Nuestros Servicios
             </h2>
           </div>
@@ -95,8 +95,8 @@ export default function Home() {
             <span>💌</span>
             <span>🕐</span>
           </div>
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Contáctanos</h2>
-          <p className="text-gray-600 mb-8">
+          <h2 className="text-3xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>Contáctanos</h2>
+          <p className="text-gray-600 mb-8" style={{ fontFamily: 'Lato, sans-serif' }}>
             Estamos aquí para atenderte. ¡Reserva tu cita hoy!
           </p>
           <div className="flex flex-col md:flex-row justify-center gap-8">
