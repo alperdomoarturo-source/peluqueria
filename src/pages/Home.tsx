@@ -55,7 +55,14 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-16 px-4 relative" style={{ backgroundImage: 'url(https://i.pinimg.com/736x/1e/63/d5/1e63d541a226f236e8a3e7ddab70e6d2.jpg)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed' }}>
+      <section id="services" className="py-16 px-4 relative" style={{ backgroundImage: 'url(https://i.pinimg.com/736x/1e/63/d5/1e63d541a226f236e8a3e7ddab70e6d2.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+        <style>{`
+          @media (min-width: 768px) {
+            #services {
+              background-attachment: fixed;
+            }
+          }
+        `}</style>
         <div className="absolute inset-0 bg-white/90"></div>
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-12">
