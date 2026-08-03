@@ -49,7 +49,7 @@ export default function Home() {
         <style>{`
           @media (max-width: 767px) {
             #services {
-              background-size: 10% auto;
+              background-size: 5% auto;
               background-repeat: repeat;
             }
           }
