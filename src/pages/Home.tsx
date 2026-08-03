@@ -47,13 +47,13 @@ export default function Home() {
       {/* Services Section */}
       <section id="services" className="py-16 px-4 relative" style={{ backgroundImage: 'url(https://img.freepik.com/fotos-premium/patron-salon-belleza_288990-5669.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
         <style>{`
-          @media (max-width: 767px) {
+          @media (max-width: 1024px) {
             #services {
               background-size: 5% auto;
               background-repeat: repeat;
             }
           }
-          @media (min-width: 768px) {
+          @media (min-width: 1025px) {
             #services {
               background-attachment: fixed;
             }
