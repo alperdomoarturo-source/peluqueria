@@ -149,8 +149,10 @@ export const deleteAppointment = async (id: string) => {
 }
 
 export const getAvailableSlots = async (date: string, serviceDuration: number, serviceId?: string, currentHour?: number, currentMinute?: number) => {
-  // Get schedule for the day
-  const dayOfWeek = new Date(date).getDay()
+  // Get schedule for the day - parse date in local timezone
+  const [year, month, day] = date.split('-').map(Number)
+  const localDate = new Date(year, month - 1, day)
+  const dayOfWeek = localDate.getDay()
   const { data: schedule, error: scheduleError } = await supabase
     .from('schedules')
     .select('*')
