@@ -54,10 +54,11 @@ export default function Home() {
           }
           @media (max-width: 768px) {
             #services {
-              background-size: contain;
+              background-image: url(https://img.freepik.com/premium-photo/wallpaper-vintage-cars-with-number-1-front_1222383-8342.jpg) !important;
+              background-size: cover;
               background-repeat: no-repeat;
               background-attachment: scroll;
-              background-position: center top;
+              background-position: center;
             }
           }
         `}</style>
