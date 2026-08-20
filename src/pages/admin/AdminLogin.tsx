@@ -37,7 +37,7 @@ export default function AdminLogin() {
       <div className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Panel Administrativo</h1>
-          <p className="text-gray-600">Inicia sesión para gestionar tu peluquería</p>
+          <p className="text-gray-600">Inicia sesión para gestionar tu carwash</p>
         </div>
 
         {error && (

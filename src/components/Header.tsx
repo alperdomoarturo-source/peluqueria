@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Scissors } from 'lucide-react'
+import { Car } from 'lucide-react'
 
 export default function Header() {
   return (
@@ -7,8 +7,8 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex items-center space-x-2">
-            <Scissors className="h-8 w-8 text-black" />
-            <span className="text-xl font-bold text-gray-900">Peluquería</span>
+            <Car className="h-8 w-8 text-black" />
+            <span className="text-xl font-bold text-gray-900">CarWash</span>
           </Link>
           
           <nav className="hidden md:flex space-x-8">

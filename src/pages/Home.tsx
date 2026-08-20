@@ -31,9 +31,9 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-black to-gray-900 text-white py-20 px-4 overflow-hidden">
         <div className="max-w-7xl mx-auto text-center relative z-10">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4 drop-shadow-lg" style={{ fontFamily: 'Playfair Display, serif' }}>Tu estilo, nuestra pasión</h1>
+          <h1 className="text-4xl md:text-6xl font-bold mb-4 drop-shadow-lg" style={{ fontFamily: 'Playfair Display, serif' }}>Tu auto, nuestra pasión</h1>
           <p className="text-xl md:text-2xl mb-8 text-gray-300 drop-shadow-md" style={{ fontFamily: 'Lato, sans-serif' }}>
-            Descubre la mejor experiencia de cuidado personal
+            Descubre la mejor experiencia de lavado de autos
           </p>
           <Link
             to="/booking"
@@ -108,7 +108,7 @@ export default function Home() {
             <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
               <div className="text-3xl mb-2">💌</div>
               <h3 className="font-semibold text-gray-900">Email</h3>
-              <p className="text-gray-600">info@peluqueria.com</p>
+              <p className="text-gray-600">info@carwash.com</p>
             </div>
             <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
               <div className="text-3xl mb-2">🕐</div>
@@ -122,7 +122,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="bg-gradient-to-r from-black to-gray-900 text-white py-12 px-4">
         <div className="max-w-7xl mx-auto text-center">
-          <p className="text-lg mb-2">&copy; 2024 Peluquería. Todos los derechos reservados.</p>
+          <p className="text-lg mb-2">&copy; 2024 CarWash. Todos los derechos reservados.</p>
           <p className="text-gray-400 text-sm">Hecho con 💖 para ti</p>
         </div>
       </footer>

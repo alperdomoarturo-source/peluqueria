@@ -11,7 +11,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
     <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
       {service.image && (
         <div className="h-48 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-          <span className="text-6xl">✂️</span>
+          <span className="text-6xl">🚗</span>
         </div>
       )}
       <div className="p-6">
