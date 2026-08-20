@@ -52,6 +52,14 @@ export default function Home() {
             background-repeat: no-repeat;
             background-attachment: fixed;
           }
+          @media (max-width: 768px) {
+            #services {
+              background-size: contain;
+              background-repeat: no-repeat;
+              background-attachment: scroll;
+              background-position: center top;
+            }
+          }
         `}</style>
         <div className="absolute inset-0 bg-white/70"></div>
         <div className="max-w-7xl mx-auto relative z-10">
