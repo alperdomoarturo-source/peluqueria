@@ -45,7 +45,7 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-16 px-4 relative" style={{ backgroundImage: 'url(https://img.freepik.com/fotos-premium/patron-salon-belleza_288990-5669.jpg)', backgroundPosition: 'center' }}>
+      <section id="services" className="py-16 px-4 relative" style={{ backgroundImage: 'url(https://wallpapers.com/images/hd/blue-bmw-car-wash-opyz9m7rlkymvisb.jpg)', backgroundPosition: 'center' }}>
         <style>{`
           #services {
             background-size: cover;
