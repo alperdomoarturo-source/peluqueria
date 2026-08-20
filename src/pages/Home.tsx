@@ -50,17 +50,7 @@ export default function Home() {
           #services {
             background-size: cover;
             background-repeat: no-repeat;
-          }
-          @media (max-width: 1024px) {
-            #services {
-              background-size: 60% auto !important;
-              background-repeat: repeat !important;
-            }
-          }
-          @media (min-width: 1025px) {
-            #services {
-              background-attachment: fixed;
-            }
+            background-attachment: fixed;
           }
         `}</style>
         <div className="absolute inset-0 bg-white/70"></div>
