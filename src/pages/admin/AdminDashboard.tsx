@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import AdminLayout from '../../components/AdminLayout'
 import { getStatistics, autoConfirmAppointments, fixFutureCompletedAppointments, deleteOldAppointments } from '../../services/database'
 import { formatPrice } from '../../utils/cn'
-import { Calendar, Scissors, DollarSign, Clock, XCircle, AlertCircle, PieChart } from 'lucide-react'
+import { Calendar, Smile, DollarSign, Clock, XCircle, AlertCircle, PieChart } from 'lucide-react'
 import { PieChart as RechartsPieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts'
 
 const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#06B6D4', '#84CC16']
@@ -60,7 +60,7 @@ export default function AdminDashboard() {
     { label: 'Pendientes', value: stats?.pendingAppointments || 0, icon: AlertCircle, color: 'bg-yellow-500' },
     { label: 'Completadas', value: stats?.completedAppointments || 0, icon: Clock, color: 'bg-purple-500' },
     { label: 'Canceladas', value: stats?.cancelledAppointments || 0, icon: XCircle, color: 'bg-red-500' },
-    { label: 'Servicios', value: stats?.totalServices || 0, icon: Scissors, color: 'bg-indigo-500' },
+    { label: 'Servicios', value: stats?.totalServices || 0, icon: Smile, color: 'bg-indigo-500' },
   ]
 
   const pieData = stats?.monthlyServicesDistribution?.map((item: any) => ({

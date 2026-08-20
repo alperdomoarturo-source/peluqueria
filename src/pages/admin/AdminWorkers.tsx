@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import AdminLayout from '../../components/AdminLayout'
 import { getServices, getWorkersByService, createWorker, deleteWorker } from '../../services/database'
 import { Service, Worker } from '../../types'
-import { Users, Plus, Trash2, Edit2, Scissors } from 'lucide-react'
+import { Users, Plus, Trash2, Edit2, Smile } from 'lucide-react'
 
 export default function AdminWorkers() {
   const [services, setServices] = useState<Service[]>([])
@@ -78,7 +78,7 @@ export default function AdminWorkers() {
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
                   <div className="p-3 bg-indigo-100 rounded-lg">
-                    <Scissors className="h-6 w-6 text-indigo-600" />
+                    <Smile className="h-6 w-6 text-indigo-600" />
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900">{service.name}</h3>
