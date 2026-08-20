@@ -29,6 +29,7 @@ export default function Booking() {
     const serviceId = searchParams.get('service')
     if (serviceId) {
       loadServiceById(serviceId)
+      setStep('info')
     }
   }, [searchParams])
 
